@@ -17,15 +17,21 @@
 \setcounter{page}{1}% 开始页码
 \pagenumbering{Roman}% 页码符号
 
-本文是中国科学院大学学位论文模板ucasthesis的使用说明文档。主要内容为介绍\LaTeX{}文档类ucasthesis的用法，以及如何使用\LaTeX{}快速高效地撰写学位论文。
+在软件开发过程中，在线聊天记录逐渐成为越来越重要的需求讨论平台。当讨论功能时，开发者会向其他开发者提出自己的软件需求。从大规模的
+聊天信息中自动进行特征请求的挖掘可以帮助进行需求收集。因为从对话中进行特征请求发现需要对对话的上下信息进行完全理解，并且为学习过程进行特征请求对话标注的代价是十分昂贵的，因此这种方法非常具有挑战性。
+为了解决这个问题，我们将把单个对话进行分类这种传统的文本分类任务转化为通过少样本学习判定两个对话是否相似的任务。我们提出一种FRM iner的新方法，它可以通过深度孪生网络从聊天信息中检测特征请求对话。我们设计了一个基于BiLSTM的对话模型，它可以从前向和反向来学习一个对话的上下文信息。
+通过在真实项目的验证，我们的方法可以达到88.52\%，88.50\%，88.51\%的平均精确度，召回率和F1值。这表明了我们的方法可以有效地从聊天记录中进行特征请求对话的识别，并且可以自动从大量数据中收集需求。
 
-\keywords{中国科学院大学，学位论文，\LaTeX{}模板}% 中文关键词
+\keywords{需求发现，深度学习，孪生网络}% 中文关键词
 %-
 %-> 英文摘要
 %-
 \intobmk\chapter*{Abstract}% 显示在书签但不显示在目录
 
-This paper is a help documentation for the \LaTeX{} class ucasthesis, which is  a thesis template for the University of Chinese Academy of Sciences. The main content is about how to use the ucasthesis, as well as how to write thesis efficiently by using \LaTeX{}.
+Online chatting is gaining popularity and plays an increasingly significant role in software development. When discussing functionalities, developers might reveal their desired features to other developers. Automated mining techniques towards retrieving feature requests from massive chat messages can benefit the requirements gathering process. But it is quite challenging to perform such techniques because detecting feature requests from dialogues requires a thorough understanding of the contextual information, and it is also extremely expensive on annotating feature-request dialogues for learning. 
+To bridge that gap, we recast the traditional text classification task of mapping single dialog to its class into the task of determining whether two dialogues are similar or not by incorporating few-shot learning. We
+propose a novel approach, named {FRMiner}, which can detect feature-request dialogues from chat messages via deep Siamese network. We design a BiLSTM-based dialog model that can learn the contextual information of a dialog in both forward and reverse directions.
+Evaluation on the real-world projects shows that our approach achieves average precision, recall and F1-score of 88.52\%, 88.50\% and 88.51\%, which confirms that our approach could effectively detect hidden feature requests from chat messages, thus can facilitate gathering comprehensive requirements from the crowd in an automated way. 
 
-\KEYWORDS{University of Chinese Academy of Sciences (UCAS), Thesis, \LaTeX{} Template}% 英文关键词
+\KEYWORDS{Requirement Detection, Deep Learning, Siamese Network}% 英文关键词
 %---------------------------------------------------------------------------%
