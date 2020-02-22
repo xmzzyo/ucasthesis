@@ -2,14 +2,15 @@
 
 ## 模板下载
 
-请在页面右边点击：**Clone or download -> Download Zip**
+* 页面右边点击：**Clone or download -> Download Zip**
+* [Overleaf](https://github.com/mohuangrui/ucasthesis/wiki/字体配置#linuxoverleaf-系统的字体配置)
 
 ## 重要建议
 
 * 关于 ucasthesis 编译和设计的问题，请先读 **模板使用说明.pdf**，如发问需遵从[提问流程](https://github.com/mohuangrui/ucasthesis/wiki/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98)。
 * 使用邮件传播 ucasthesis 时，请先删除 `artratex.bat` 以防范 Dos 脚本的潜在风险。
-* 开题报告请见：[ucasproposal: 中国科学院大学开题报告 LaTeX 模板](https://github.com/mohuangrui/ucasproposal)。
-* 书脊制作请见：[latexspine: LaTeX 书脊模板](https://github.com/mohuangrui/latexspine)。
+* 开题报告见：[ucasproposal: 中国科学院大学开题报告 LaTeX 模板](https://github.com/mohuangrui/ucasproposal)。
+* 书脊制作见：[latexspine: LaTeX 书脊模板](https://github.com/mohuangrui/latexspine)。
 
 ## 模板简介
  
@@ -26,6 +27,8 @@
 * `2020-01-09` 模板样式进行了修改，请查看下面的修改描述，以决定是否需要更新。
 
 ## 更新记录
+
+* `2020-02-11` 根据 [ck2019ML, issue #182](https://github.com/mohuangrui/ucasthesis/issues/182)、[univeryinli, issue #229](https://github.com/mohuangrui/ucasthesis/issues/229) 将 ucasthesis 在 [Overleaf](https://github.com/mohuangrui/ucasthesis/wiki/字体配置#linuxoverleaf-系统的字体配置) 发布并支持调用外部字体，详见[字体配置](https://github.com/mohuangrui/ucasthesis/wiki/字体配置)。根据 [xiaokongkong, issue #231](https://github.com/mohuangrui/ucasthesis/issues/231)修正几个书写。
 
 * `2020-01-09` 根据 [NineSH, issue #223](https://github.com/mohuangrui/ucasthesis/issues/223) 修复`bicaption`错误。
 
