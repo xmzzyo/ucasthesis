@@ -1,6 +1,6 @@
 \chapter{国内外相关研究现状}\label{chap:related_work}
 
-目前，国内外针对从非结构化文本中进行需求发现和提取已经有一些论文成果。在许多开源和工业项目中，开发人员大量使用书面沟通渠道，例如邮件列表，issue tracker、聊天工具等，并且这样的方式已经遍布全球开发人员的日产工作中。自然语言处理技术和文本挖掘如情感分析、话题建模、机器学习等技术首先被应用于这些文本的意图分类中，如缺陷报告分类、特征请求分类等\cite{maalej2015bug}，并且服务于发布计划工具，向应用开发者提供支持，决定哪个新特征需要在下个版本中实现。@@@@@本文主要从@@@@@@几方面介绍国内外相关研究工作。
+目前，国内外针对从非结构化文本中进行需求发现和提取已经有一些论文成果。在许多开源和工业项目中，开发人员大量使用书面沟通渠道，例如邮件列表，issue tracker、聊天工具等，并且这样的方式已经遍布全球开发人员的日产工作中。自然语言处理技术和文本挖掘如情感分析、话题建模、机器学习等技术首先被应用于这些文本的意图分类中，如缺陷报告分类、特征请求分类等\cite{maalej2015bug}，并且服务于发布计划工具，向应用开发者提供支持，决定哪些新特征需要在下个版本中实现。@@@@@本文主要从@@@@@@几方面介绍国内外相关研究工作。
 
 \section{基于文本数据的需求发现}
 如今，软件应用和服务的用户会根据他们的感知体验质量，以简短的评论和排名的形式提供反馈，甚至参与由社交媒体或基于Web的专用交流支持的在线讨论平台，例如App Store，用户论坛，邮件列表，Wiki，新闻组和博客。 这种在线用户反馈的数量迅速增加，代表着软件数据的重要组成部分，并且可以通过软件分析支持软件工程中的决策，从而推动软件工程研究的发展\cite{Morales2019Speech}。 
@@ -9,7 +9,7 @@
 人工分析比如基于规则的方法以及有监督的机器学习方法正在大量被应用在分析对软件工程师和非技术利益相关者有用的信息\cite{Morales2019Speech}。
 \subsection{基于规则的需求发现}
 
-RE Vlas等人\cite{morales2014discovering}提出一种基于语法的特征请求发现工具。作者使用Subject-action-Object（SAO）语法标签对需求进行解析和表示。其中subject是需求声明的发出者，action定义了需求里面定义的特征，object表示被action影响的对象。比如：“这个提交按钮应该把表单数据提交给处理组件”中，“提交按钮”是subject，“发送”是action，object是“表单数据”。图\ref{fig:sao}是SAO方法对密码安全特征需求进行识别的一个例子。
+RE Vlas等人\cite{morales2014discovering}提出一种基于语法的特征请求发现工具。作者使用Subject-Action-Object（SAO）语法标签对需求进行解析和表示。其中subject是需求声明的发出者，action定义了需求里面定义的特征，object表示被action影响的对象。比如：“这个提交按钮应该把表单数据提交给处理组件”中，“提交按钮”是subject，“发送”是action，object是“表单数据”。图\ref{fig:sao}是SAO方法对密码安全特征需求进行识别的一个例子。
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.70\textwidth]{Img/sao.png}
@@ -168,16 +168,64 @@ E Shihab等人\cite{shihab2009studying}通过两个大型开源项目从几个�
 P Chatterjee等人\cite{chatterjee2019exploratory}调查了通过挖掘开发者谈话从而支持软件维护和演化的有效性和挑战性，作者发现开发者倾向于通过即时聊天工具分享对于观点或者有意义的想法，并且说明了通过应用一些技术和训练集可以达到较高的对话解耦效果。
 
 \section{自然语言处理中的对话解耦}
-\subsection{对话解耦}
+聊天是开发者社区之间的一种同步文本通信方式。
+当一组人在公共的聊天平台进行通信时，聊天中的消息形成流式信息，往往会有很多的对话同时出现，会话经常耦合在一起，例如单个会话会与其他会话交织在一起。并且如同 Internet Relay Chat（IRC）、Google Hangout、网站评论等聊天平台不能显式地表明对话的结构。将聊天消息划分为一组不同的对话是任何上层对话分析的基本前提。对话解耦就是从一个单一的流信息中识别独立对话的一个任务。
 
+关于对话解耦做出最重要贡献的是一系列在IRC上标注的数据和模型。
+Adams和 Martell等人\cite{adams2008topic}研究了对话解耦和话题识别，但是没有公开数据集。Riou等人\cite{riou2015using}在IRC的\#Ubuntu-fr Channel标注对话以及句子关系。Lowe等人\cite{lasecki2013conversations}启发式地从\#Ubuntu Channel进行对话抽取。他们的工作提供了930,000个解耦的对话，为其他对话解耦工作提供了数据基础。
+Elsner和Charniak等人\cite{elsner2008you}探索了使用信息对特征集和线性分类器，结合局部和全局的推断方法。Jiang等人\cite{jiang2018learning}使用了神经网络的方法，效果达到了提升。
+
+JK Kummerfeld等人\cite{kummerfeld2018large}手工标注了一个大小为77,563条解耦对话，对于对话定义了一个回复关系图模型，数据集包含内部的对话结构。如图\ref{fig:example-conversation}所示的两个耦合的对话和一个标注的图结构数据是标注数据集的一个样例，其中不同颜色的连线表示图连接。这个例子包括一个当多个人独立的尝试帮助BurgerMann时收到的多个回应的信息，并且在最后消息中BurgerMann回复多个信息。我们也可以看到delire和Seveas两个用户同时参与两个交谈中。
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Img/example-conversation.png}
+    \bicaption{Ubuntu的例子。曲线是回复图结构的标注，其中蓝实线和绿虚线分别代表两个对话。}{\#Ubuntu log sample. Curved lines are graph annotations of reply structure, which deﬁne two conversations shown with blue solid edges and green dashed edges.}
+    \label{fig:example-conversation}
+\end{figure}
+作者设计了一个具有2层、512维隐藏层和sigmod非线性激活函数的浅层前馈神经网络，并手工设计了77个特征，其中每个元素都是从原始对话文本中提取的数字类别特征，其中包括当前用户发布的先前聊天消息的时间间隔、聊天内容中是否有目标用户、两个聊天文本是否包含相同的单词等。该模型可以达到74.9％的精度和79.7％的召回率，具有相对较好的性能。
 
 \section{自然语言文本的嵌入式表示和文本分类}
 \subsection{TF-IDF}
-\subsection{文本嵌入式表达}
-\subsection{Convolutional Neural Network}
-\subsection{Long Sequence Term Machine}
+\subsection{GloVe}
+近来许多研究工作成功地通过学习词的向量空间表示如Word2Vec\cite{mikolov2013distributed}等来细粒度地获取语法和语义信息。这些向量可以被应用在各种任务上，如信息检索、文本分类、自动问答和命名实体识别等。词向量方法使用词对之间的距离或者角度作为评估词表示质量的主要方法。比如：“国王之于王后相当于男人之于女人”，其应该在向量空间表示为“国王-王后=男人-女人”。当前，主要有两种方式进行词向量学习：1）全局矩阵分解方法，如隐式语义分解（LSA）\cite{deerwester1990indexing}等，其使用矩阵的低秩近似将大矩阵进行分解，从而获取语料的统计信息。但是其问题在于高频词将会严重地影响相似度，然而它们是有很少的语义关联的；2）局部上下文窗口方法，如Skip-gram和CBOW方法\cite{mikolov2013distributed}，但是其方法局限于只利用了窗口词，没有利用语料巨大的词共现信息。GloVe是一个无监督的获取词向量的算法，通过在聚集的全局词共现矩阵上进行训练，其结果显示了在词向量空间的线性特征。模型产出了在词向量空间上有意义的结果，并达到了超越其他现有模型的效果。
+
+\subsection{TextCNN}
+聊天消息中的对话是按时间顺序记录的文本句子的形式，这是开发人员在在线交流中进行的。建模句子表达形式是高级对话分析的基础，在本文中，我们使用TextCNN\cite{kim2014convolutional}来表示句子，因为它使用简洁的网络结构和少量参数，因此在学习不充足的标记数据上具有优势。
+TextCNN是用于句子建模的经典方法，它使用浅层卷积神经网络（CNN）\cite{krizhevsky2012imagenet}对句子表示进行建模。CNN是一种已广泛用于计算机视觉的深度学习模型。它使用几个卷积核捕获局部信息，然后使用这些局部信息生成全局表示。类似地，在自然语言处理（NLP）中，CNN可以聚合n元语法信息和建模句子表示形式。TextCNN将预训练或随机生成的单词嵌入作为输入，其输出的维数取决于卷积核的数量和大小。长度为$n$的句子可以表示为形状为$n\times d$的矩阵，其中$d$是单词嵌入的维数。每个内核为 $w \in \mathbb{R}^{kd}$ ，其中$k$是卷积内核的大小，应用于$k$个单词的窗口，然后映射到一个新的一维向量中。令$X_{i:i+k}$表示原始句子中的\textit{k}-gram单词串，然后对其进行卷积运算。卷积层的输出可以表示为$o_i=f(w\cdot X_{i:i+k} + b)$ ，其中$b$是偏置项，$f$是激活函数。给定一个句子的长度l和卷积核大小$k$，我们可以获得大小为$l-k+1$的句子的表示形式。卷积层后面是最大池化层，它可以捕获具有最大值的关键信息。
+为了获得由不同尺度的局部信息组合而成的更充分的语义信息，我们可以将具有不同大小的多个卷积核应用于该句子。 因此，对于一个给定$n \times m$积核的句子，其中$n$是不同大小的核数，而$m$是每种大小的数量，我们可以得到大小为 $n\times m$的句子表示形式，其将不同尺度的局部信息转化为句子的整体表示。如图\ref{fig:textcnn}所示为TextCNN应用在句子分类上的模型结构图，其中不同颜色的矩阵为不同大小的二维卷积核，输出为二维向量用于句子分类。
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Img/textcnn.png}
+    \bicaption{一个用于句子分类的CNN结构表示。}{Illustration of a CNN architecture for sentence classification.}
+    \label{fig:textcnn}
+\end{figure}
+
+\subsection{BiLSTM}
+分析来自聊天消息的对话是一项上层的文本挖掘任务。因为当理解一个句子时，它需要考虑对话范围内的上下文信息。在本文中，我们利用双向长期短期记忆网络（BiLSTM），将对话的句子视为顺序序列，以捕获上下文信息，其中句子的表示由TextCNN表示。BiLSTM由Graves等人\cite{graves2013speech}提出，为序列学习任务学习双向信息，BiLSTM堆叠两个方向相反的标准LSTM层，以分别学习句子的单向表示。然后，它将前向和后向表示形式组合为双向嵌入。LSTM是基于Hochreiter等人\cite{hochreiter1997long}提出的基于门机制的优化的递归神经网络（RNN）结构。LSTM利用门机制来提取关键信息，并将其传递给后面的长序列。LSTM单元由输入门，忘记门，单元状态和输出门组成。如图\ref{fig:lstm}所示为LSTM单元的模型结构。
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Img/lstm.png}
+    \bicaption{一个LSTM单元的结构表示。}{Illustration of an LSTM cell architecture.}
+    \label{fig:lstm}
+\end{figure}
+其中，LSTM单元门的输出可以表示如下：
+$$\begin{aligned}\left[\begin{array}{c}{{\mathbf{i}_{t}} \\ {\mathbf{f}_{t}} \\ \tilde{\mathrm{c}}_{t}} \\ {\mathbf{o}_{t}}\end{array}\right] &=\left[\begin{array}{c}{\sigma} \\ {\sigma} \\ {tanh} \\ {\sigma}\end{array}\right] \left( \mathbf{W} \left[\begin{array}{c}{\mathbf{x}_{t}} \\ {\mathbf{h}_{t-1}}\end{array}\right] +\mathbf{b} \right)  \tag{1} \\ \mathbf{c}_{t} &=\tilde{\mathbf{c}}_{t} \odot \mathbf{i}_{t}+\mathbf{c}_{t-1} \odot \mathbf{f}_{t} \tag{2} \\ \mathbf{h}_{t} &=\mathbf{o}_{t} \odot \tanh \left(\mathbf{c}_{t}\right) \tag{3} \end{aligned}$$
+其中$\mathbf{x}_{t}$ 是在这个输入句子中的第$i^{th}$个token，$\mathbf{W}$是LSTM单元的权重矩阵，$\mathbf{b}$是偏置项，$\mathbf{\sigma}$是sigmod激活函数，$\mathbf{tanh}$是双曲正切函数，$\odot$是element-wise的乘法。
+因此，BiLSTM最终可表示为 $h=[\overrightarrow{h}\oplus \overleftarrow{h}]$，其中 $ \overleftarrow{h}$ 和  $ \overleftarrow{h}$分别表示两层LSTM的输出， $\oplus$ 表示连接运算。
+如图\ref{fig:bilstm}所示为BiLSTM的结构示意图。
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.6\textwidth]{Img/bilstm.jpg}
+    \bicaption{BiLSTM的结构表示。}{Illustration of BiLSTM architecture.}
+    \label{fig:bilstm}
+\end{figure}
+
 \subsection{文本分类模型}
 
 \section{少样本学习}
+深度学习在计算机视觉和NLP领域都取得了巨大的成功。但是它严重依赖于足够多的训练数据量，并且当标记的资源不足时，很难达到很好的效果。聊天消息中的自动挖掘技术还面临标注资源不足的问题。在在线聊天中，大量的开发人员会在短时间内创建大量讨论。为学习有效的模型标注大量的对话数据非常耗时，因为它们不仅很长，而且还需要领域知识来充分理解。于是少样本学习被提出来克服这些约束\cite{wang2019few}。少样本学习可以分为以下三类\cite{chen2019closer}：基于模型的方法：其旨在通过模型设计从少量标注数据的分类中学习映射函数；基于优化器的方法：其可调整传统的梯度下降优化器方法以拟合数据；基于度量的方法：其通过学习相似性度量函数对样本进行分类。
+在本文中，我们利用了一种基于度量的少样本学习技术，即孪生网络\cite{bromley1994signature}，该技术被广泛用于衡量文本或图像之间的语义相似性\cite{mueller2016siamese}。传统的分类模型尝试学习从单个实例映射到其类别的函数，但是当可用的标注资源数据较少时，它们不能达到理想的效果。与传统方法不同，孪生网络将成对的实例作为输入，旨在学习确定两个实例是属于同一类别还是属于不同类别的关键特征。它由两个相同的子模块组成，这些子模块不仅共享模型结构，而且还共享参数。从直觉上讲，对于本任务而言，确定两个对话是否相似而不是为每个对话指定确切的类别更容易。由于孪生网络将一对对话作为输入，因此数据集从元素级别转换为成对级别，并且可以通过排列组合进行数据增强。
+
+\section{本章小结}
 
 
