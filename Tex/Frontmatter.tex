@@ -17,12 +17,15 @@
 \setcounter{page}{1}% 开始页码
 \pagenumbering{Roman}% 页码符号
 
-在许多开源项目和工业软件中，开发者大量使用交流平台， 比如邮件，问题追踪，聊天等。在当前软件开发过程中，在线聊天记录逐渐成为越来越重要的需求讨论平台。目前在线聊天越来越受欢迎，并且在软件开发中起着越来越重要的作用。在讨论功能时，开发人员可能会向其他开发人员表达其期望的功能。这些聊天记录可以用于从大量聊天消息中检索特征请求的自动化挖掘技术，并可以帮助需求收集过程。但是实现此类技术非常具有挑战性，因为从对话中检测特征请求需要对上下文信息有透彻的了解，并且标注特征请求对话以进行学习也是一项非常昂贵的工作。
-为了解决这个问题，我们将传统的把单个对话分类为其对应的类别这一文本分类任务转换为通过使用少样本学习来确定两个对话是否是相似的任务。我们提出了一种名为FRMiner的新方法，该方法可以通过深层的孪生网络从聊天消息中检测特征请求对话。我们设计了一个基于BiLSTM的对话模型，该模型可以在正反两个方向上学习对话的上下文信息。
-对具体项目的评估表明，我们的方法达到了88.52％、88.50％和88.51％的平均精度、召回率和F1值，这表明我们的方法可以有效地检测聊天消息中的隐藏特征请求，从而可以有助于以自动化的方式从群体中收集全面的需求。
+在许多开源项目和工业软件中，开发者大量使用共享交流平台，比如邮件列表，issue tracker，聊天平台等。在当前软件开发过程中，在线聊天记录逐渐成为重要的需求讨论平台，其越来越受欢迎并且在软件开发中起着重要的作用。在线聊天记录包含了丰富的信息，这些信息可以有助于为软件开发者提供建议，比如专家建议或者为源代码建立文档等。在开源项目对应的聊天频道中，当讨论功能时，开发人员经常会向其他开发人员表达其期望的功能，因此聊天记录中存在着大量的开发者和利益相关者发布的特征请求对话。研究者可以通过应用从大规模聊天消息中检索特征请求的自动化挖掘技术来分析这些聊天记录并识别特征请求，进而可以帮助需求收集过程。但是实现此类技术非常具有挑战性，因为从对话中识别特征请求需要对上下文信息有透彻的了解，并且标注特征请求对话以进行学习也是一项时间成本、人力成本非常昂贵的任务。
 
 
-\keywords{需求发现，深度学习，孪生网络}% 中文关键词
+为了解决这个问题，我们设计了一个基于BiLSTM的上下文敏感对话模型，该模型可以从正反两个方向上学习对话的上下文信息，并提出了一种名为{\tool}的新方法，该方法可以通过以我们设计的对话模型为基模型的孪生网络从大规模聊天消息中检测特征请求对话，其核心思想在于将传统的把单个对话分类为其对应的类别这一文本分类任务转换为通过使用少样本学习来确定两个对话是否是相似的任务。对三个实际项目的评估表明，我们的方法取得了88.52％、88.50％和88.51％的平均精度、召回率和F1值，这说明我们的方法相较于传统的文本分类方法有较大的效果提升，并可以有效地检测聊天消息中的隐藏特征请求。另外，我们开源了标注的1,035条数据以及代码可供复现以及未来进一步研究。
+
+本文通过介绍我们提出的{\tool}的模型结构以及实验评估等，验证了我们方法在识别特征请求对话任务中的有效性，可以以自动化的方式从群体交流信息中收集全面的需求从而为开发人员减少大量的重复工作、为开源软件开发提供重要的见解和启发的作用。
+
+
+\keywords{需求发现，深度学习，文本分类，孪生网络}% 中文关键词
 %-
 %-> 英文摘要
 %-
@@ -30,8 +33,8 @@
 
 Online chatting is gaining popularity and plays an increasingly significant role in software development. When discussing functionalities, developers might reveal their desired features to other developers. Automated mining techniques towards retrieving feature requests from massive chat messages can benefit the requirements gathering process. But it is quite challenging to perform such techniques because detecting feature requests from dialogues requires a thorough understanding of the contextual information, and it is also extremely expensive on annotating feature-request dialogues for learning. 
 To bridge that gap, we recast the traditional text classification task of mapping single dialog to its class into the task of determining whether two dialogues are similar or not by incorporating few-shot learning. We
-propose a novel approach, named FRMiner, which can detect feature-request dialogues from chat messages via deep Siamese network. We design a BiLSTM-based dialog model that can learn the contextual information of a dialog in both forward and reverse directions.
+propose a novel approach, named {\tool}, which can detect feature-request dialogues from chat messages via deep Siamese network. We design a BiLSTM-based dialog model that can learn the contextual information of a dialog in both forward and reverse directions.
 Evaluation on the real-world projects shows that our approach achieves average precision, recall and F1-score of 88.52\%, 88.50\% and 88.51\%, which confirms that our approach could effectively detect hidden feature requests from chat messages, thus can facilitate gathering comprehensive requirements from the crowd in an automated way. 
 
-\KEYWORDS{Requirement Detection, Deep Learning, Siamese Network}% 英文关键词
+\KEYWORDS{Requirement Detection, Deep Learning, Text Classification, Siamese Network}% 英文关键词
 %---------------------------------------------------------------------------%

@@ -42,10 +42,16 @@
 %- [xlink]% disable link colors
 \usepackage{Style/artracom}% user defined commands
 \usepackage{multirow} 
+\usepackage{diagbox}
 \usepackage{algorithm}
 \usepackage{algorithmicx}
+\usepackage{amsmath}
+\DeclareMathOperator*{\argmax}{argmax}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}} 
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
+
+\newcommand{\todo}[1]{{\textbf{\color{blue}[#1]}}}
+\newcommand{\tool}{FRMiner}
 %---------------------------------------------------------------------------%
 %->> Document inclusion
 %---------------------------------------------------------------------------%
@@ -72,7 +78,7 @@
 \intobmk*{\cleardoublepage}{\listtablename}% add link to bookmark
 \listoftables% table catalog
 }
-\input{Tex/Prematter}% symbol list, preface content
+% \input{Tex/Prematter}% symbol list, preface content
 %-
 %-> Mainmatter
 %-
@@ -82,8 +88,8 @@
 %-> Appendix
 %-
 \cleardoublepage%
-\appendix% initialize the environment
-\input{Tex/Appendix}% appendix content
+% \appendix% initialize the environment
+% \input{Tex/Appendix}% appendix content
 %-
 %-> Backmatter: bibliography, glossary, index
 %-
