@@ -25,9 +25,10 @@
 为了解决以上问题，本文在总结调研国内外相关研究内容的基础上，针对从大规模聊天数据中进行对话级别的需求挖掘任务开展研究，主要工作以及创新点如下：
 \setlist[enumerate]{}% restore default behavior
 \begin{enumerate}[nosep]
-    \item 本文是首个在对话级别上进行建模并进行隐藏需求发现的，对于对话建模，本文设计了一个基于BiLSTM的上下文敏感对话模型BCDM（\textbf{B}iLSTM based \textbf{C}ontext-aware \textbf{D}ialog \textbf{M}odel），该模型可以从正反两个方向上学习对话的上下文信息。
-    \item 针对聊天对话数据中对话长度长、掺杂无关噪声数据并需要专业领域知识进行理解而带来的数据标注困难的问题，本文提出了一种名为{\tool}（\textbf{F}eature \textbf{R}equest \textbf{Miner}）的新方法，该方法以本工作中设计的对话模型{\dm}为基模型构建孪生网络，其可以从大规模聊天消息中识别申请新需求的对话。{\tool}核心思想在于将传统的文本分类任务转换为确定两个对话是否是相似类别的任务。
-    \item 本文在三个实际开源项目上进行评估，结果表明{\tool}取得了88.52％、88.50％和88.51％的平均精度、召回率和F1值，这说明{\tool}相较于近年先进的需求挖掘技术和文本分类方法有较大的效果提升，并可以有效地识别聊天消息中隐藏的新需求。\item 另外，本研究开源了标注的1,035条数据和代码可供复现以及未来进一步研究。
+    \item 本文是首个在对话级别上进行建模并挖掘隐藏需求的工作。对于对话建模，本文设计了一个基于BiLSTM的上下文敏感对话模型BCDM（\textbf{B}iLSTM based \textbf{C}ontext-aware \textbf{D}ialog \textbf{M}odel），该模型可以从正反两个方向上学习对话的上下文信息。
+    \item 针对聊天数据中对话长度长、掺杂无关噪声数据并需要专业领域知识进行理解而带来的数据标注困难的问题，本文提出了一种名为{\tool}（\textbf{F}eature \textbf{R}equest \textbf{Miner}）的新方法，该方法以本工作中设计的对话模型{\dm}为基模型构建孪生网络，其可以从大规模聊天消息中识别申请新需求的对话。{\tool}核心思想在于将传统的文本分类任务转换为确定两个对话是否是相似类别的任务。
+    \item 本文在三个实际开源项目上进行评估，结果表明{\tool}取得了88.52％、88.50％和88.51％的平均精度、召回率和F1值，这说明{\tool}的效果大大超越了近年先进的需求挖掘技术和文本分类方法，并可以有效地识别聊天消息中隐藏的新需求。
+    \item 另外，本研究开源了标注的1,035条对话数据，并提供了代码使{\tool}工具可在离线和在线场景下进行部署应用。
 \end{enumerate}
 
 本文通过介绍{\tool}的模型结构以及实验评估等，展示了该方法在识别需求对话任务上的有效性，验证了{\tool}可以通过自动化的方式从群体交流信息中收集全面的需求从而为开发人员减少大量的重复工作，识别到的新需求也可以为开源软件开发提供有价值的见解和启发。
@@ -38,22 +39,23 @@
 %-> 英文摘要
 %-
 \intobmk\chapter*{Abstract}% 显示在书签但不显示在目录
-In many open-source projects and industrial software, developers will use various kinds of shared communicating platforms, like mail lists, issue tracker and online chatting. 
-Online chatting is gaining popularity and plays an increasingly significant role in software development. Moreover, there is existing rich information in online chatting record which can provide help, like expert advice, building documents for source code and proposing feature request, for developers. Since developers will always express their desired features to other developers, there are amount of feature request dialogues discussing by developers in chatting messages.
+In many open-source projects and industrial software, developers will use various kinds of shared communication platforms, for example, mail lists, issue trackers and online chatting tools. 
+Online chatting is gaining popularity and plays an increasingly significant role in software development. Moreover, there exists rich information in online chatting record which can provide help, for example, providing expert advice, building documents for source code and proposing feature request, for developers. Since developers will always express their desired features to other developers in online chatting channels corresponding to the open-source projects, there are amount of feature request dialogues discussed by developers in chat messages.
 
-In order to better understand and collect feature requests, the project release team needs to manually record or automatically mine chat information. However, it is a time-consuming and labor-consuming job to manually record feature request from large-scale chat information, and it is easy to ignore important information or even produce errors in the process of recording; as for automatic feature request mining methods, research work in recent years has mainly focused on the identification of feature request in sentences from platforms such as e-mail and forums, therefore, these sentence-level feature request identification methods are not suitable for dialogue scenarios with rich context information and noisy data.
+In order to better understand and collect feature requests, the project release team needs to manually record or automatically mine chat information. However, it is a time-consuming and labor-consuming job to manually record feature request from large-scale chat information, and it is easy to ignore important information or even produce errors in the process of recording; as for automatic feature request mining methods, research works in recent years mainly focus on the identification of feature request in sentences from platforms such as e-mail and forums, therefore, these sentence-level feature request identification methods are not suitable for dialog scenarios with rich context information and noisy data.
 
-In order to solve the above problems, based on the summary and research of relevant research content at home and abroad, this paper studies the feature request mining task on dialogue level from large-scale chat data. The main work and innovations are as follows:
+In order to solve the above problems, on the basis of summarizing and investigating the relevant research content at home and abroad, this paper conducts research on the task of mining dialog-level requirements from large-scale chat data. The main work and innovations are as follows:
 
 \setlist[enumerate]{}% restore default behavior
 \begin{enumerate}[nosep]
-\item This paper is the first to promote dialog-level modeling and detecting hidden feature requests. As for dialog modeling, this paper design a context-aware dialog model BCDM（\textbf{B}iLSTM based \textbf{C}ontext-aware \textbf{D}ialog \textbf{M}odel） based on BiLSTM, which can learn the context information in both forward and reverse directions.
-\item For the problems of long conversation length, noise text and requiring specific domain knowledge in chatting messages, this paper introduces a solution named {\tool}(\textbf{F}eature \textbf{R}equest \textbf{Miner}) that constructs Siamese Network based on the dialog model {\dm} designed in this work, which can effectively detect dialogues that are requesting new features. The key idea of {\tool} is to recast the traditional text classification task to the task of predicting whether two dialogues belong to the same categories. 
+\item This paper is the first to model and detect hidden feature requests on dialog-level. As for dialog modeling, this paper designs a context-aware dialog model BCDM（\textbf{B}iLSTM based \textbf{C}ontext-aware \textbf{D}ialog \textbf{M}odel） based on BiLSTM, which can learn the contextual information in both forward and reverse directions.
+\item With respect to the difficulties caused by long conversation length in the conversation data, doping with irrelevant noise data, and requiring professional domain knowledge to understand during data labeling, this paper introduces a solution named {\tool}(\textbf{F}eature \textbf{R}equest \textbf{Miner}) that constructs Siamese Network based on the dialog model {\dm} designed in this work, which can effectively detect dialogues that are requesting new features. The key idea of {\tool} is to recast the traditional text classification task to the task of predicting whether two dialogues belong to the same category. 
 \item Evaluation on the three real-world open-source projects shows that our approach achieves average precision, recall and F1-score of 88.52\%, 88.50\% and 88.51\%, which confirms that {\tool} outperforms recent advanced feature request mining approaches and text classification methods, thus can efficiently detect hidden feature request from chatting messages.
-\item In addition, this research releases a dataset with 1,035 labeled data and code which is available for replication and further research.
+\item In addition, this research releases a dataset with 1,035 labeled dialog data and the code of {\tool} that can be applied in both offline and online scenarios.
 \end{enumerate}
 
-With introducing the model architecture and experimental evaluation of {\tool}, this paper presents the effectiveness on the task of identifying feature request dialog, verify that {\tool} can collect comprehensive requirements from crowd communication information in an automated way, so as to reduce a lot of repetitive work for developers. Besides, these feature requests newly identified can also provide valuable insights and inspiration for open source software development.
+
+With introducing the model architecture and experimental evaluation of {\tool}, this paper presents the effectiveness on the task of identifying feature request dialog, and verifies that {\tool} can collect comprehensive requirements from crowd communication information in an automatic way, so as to reduce a lot of repetitive work for developers. Besides, these feature requests newly identified can also provide valuable insights and inspiration for open-source software development.
  
 
 \KEYWORDS{Requirement Detection, Deep Learning, Text Classification, Siamese Network}% 英文关键词

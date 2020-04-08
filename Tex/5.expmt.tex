@@ -1,5 +1,5 @@
-\chapter{隐藏需求对话挖掘模型验证与分析}
-本章目的在于介绍数据集设置、通过把FRMiner与近年先进的需求识别基准方法和常见文本分类模型的效果对比验证孪生网络在复杂对话分类中的有效性、对模型参数即数据增强倍数进行定量分析以及FRMiner在跨项目实验中的表现，并分别介绍了以上实验的设置和实验结果说明以及基本分析。最后，本章对实现的{\tool}工具的离线、在线训练使用进行介绍说明。
+\chapter{隐藏需求对话挖掘方法的验证与应用}
+本章目的在于介绍数据集设置、通过把FRMiner与近年先进的需求识别基准方法和常见文本分类模型的效果对比验证孪生网络在复杂对话分类中的有效性、对模型参数即数据增强倍数进行定量分析以及FRMiner在项目间泛化能力实验中的表现，并分别介绍了以上实验的设置和实验结果说明以及基本分析。最后，本章对实现的{\tool}工具的离线、在线训练使用进行介绍说明。
 
 \section{实验数据集设置}
 \subsection{数据爬取}
@@ -14,7 +14,7 @@ Scrapy中需要用户自定义的一个核心的组件为Item，其存储了待�
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{Img/echelog.png}
-    \bicaption{AngularJS项目IRC记录样例。}{An example of AngularJS IRC channel.}
+    \bicaption{AngularJS项目IRC记录样例}{An example of AngularJS IRC channel}
     \label{fig:echelog}
 \end{figure}
 因此针对IRC数据，本工作爬取的Item对象的主要结构信息有：Timestamp，UserName和Message。
@@ -60,13 +60,13 @@ Chromium          & 2015.5-2019.7 & 16804 & 118890 & 340    & 4465    & 27     \
 
 \section{FRMiner进行需求挖掘的有效性实验}
 \subsection{实验目的及实验设计}
-为了验证{\tool}的有效性，本文基于三个开源项目的聊天记录，对于需求对话识别实验进行了三折交叉验证。并且针对两个近年效果先进的句子级别的需求发现方法以及四个广泛使用的文本分类方法，本文与其比较了分类表现，以验证FRMiner在有限标注数据上进行自动需求对话识别的有效性。
+为了验证{\tool}的有效性，本文基于三个开源项目的聊天记录，对于隐藏需求对话识别实验进行了三折交叉验证。并且针对两个近年效果先进的句子级别的需求发现方法以及四个广泛使用的文本分类方法，本文与其比较了分类表现，以验证FRMiner在有限标注数据上进行自动需求对话识别的有效性。
 
 \textbf{1）基于句子级别需求发现的基线方法}
 
 上文介绍了近年软件工程领域在需求识别方面的研究工作，其中章节2.1中的CNN-based Classifier（CNC）\cite{Huang2018Automating}和Feature Request Analyser（FRA） \cite{shi2017understanding}在需求分类上达到较好的效果。由于原分类器的分类目标是句子，需要将其调整为对话级别的分类器，也即对话中包含为分类器预测为需求意图的句子时，本文认为该对话为需求对话。本文选用这两个方法作为需求分类方面的基线方法，并使用了对应文献中中提供的代码和模型。
 
-CNC是目前从在线问题报告的评论中进行句子分类的最优模型，其使用基于卷积神经网络的方法把句子分为七个类别：信息提供、信息寻找、提出需求、问题提出、问题发现、方面验证和无意义的语句。本文使用其中需求的类别来预测，即将包含需求句子的对话分类为需求对话。
+CNC是目前从在线问题报告的评论中进行句子分类的最优模型，其使用基于卷积神经网络的方法把句子分为七个类别：信息提供、信息寻找、提出需求、问题提出、问题发现、方面验证和无意义的语句。本文使用其中预测为需求的类别，即将包含需求句子的对话分类为需求对话。
 
 FRA是一个从在线问题追踪系统中把句子进行需求分类的最优的基于规则的模型，其使用81个规则将句子分为六个类别，本研究将包含类别\textit{Intent}的句子的对话分类为需求对话，同时，不包含\textit{Intent}句子的对话为非需求对话。
 
@@ -130,7 +130,7 @@ IDF是词出现在不同文档数的逆，词出现的次数越多，代表该�
 为了检验引入孪生网络而带来的效果提升，本文构建了以Single-Instance为输入的基本上下文敏感对话分类模型p-{\tool}和使用Pair-Instance作为输入的{\tool}进行效果对比。之后，本文逐渐增加Pair-Instance训练集的大小来检验模型效果提升和数据集增强的关系。
 
 
-需要注意的是，p-{\tool}和{\tool}是不同的分类模型，其中，如图\ref{fig:model-cls}所示，p-{\tool}是在前文所述的上下文敏感对话模型的基础上添加线性分类层，并接受单个对话作为输入，其可以对需求对话进行分类识别。
+需要注意的是，p-{\tool}和{\tool}是不同的分类模型，其中，如图\ref{fig:model-cls}所示，p-{\tool}是在前文所述的上下文敏感对话模型{\dm}的基础上添加线性分类层，并接受单个对话作为输入，其可以对需求对话进行分类识别。
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=\textwidth]{Img/model_cls.pdf}
@@ -212,7 +212,9 @@ IDF是词出现在不同文档数的逆，词出现的次数越多，代表该�
 
 \section{{\tool}工具的离线和在线应用}
 
-本文提供的{\tool}工具不仅可用于离线训练使用，并且可以集成到发布团队的工作流中进行在线使用，从而可以帮助收集群体需求。
+本文的{\tool}模型代码以及数据已在\href{https://github.com/FRMiner/FRMiner}{https://github.com/FRMiner/FRMiner}开源，并提供有详细代码使用文档，使用者可运行代码对未标注对话进行需求识别或者基于代码做进一步研究。
+
+通过部署应用本文提供的{\tool}工具，使用者不仅可用于离线训练使用，并且可以集成到发布团队的工作流中进行在线使用，从而可以帮助收集群体需求。
 
 \subsection{{\tool}工具离线训练应用}
 在获取{\tool}工具代码之后，用户首先需要配置json文件，其关键字段如下：
@@ -226,31 +228,39 @@ IDF是词出现在不同文档数的逆，词出现的次数越多，代表该�
 "cuda_device": GPU训练
 \end{lstlisting}
 然后通过\textit{allennlp train FRMiner/config.json -s FRMiner/out/ -f --include-package FRMiner}运行本文提供的{\tool}工具实现，用户可以对已标注数据进行训练和结果评估，并将最终训练模型序列化到目标文件夹。
-其中，训练过程和结果输出如图\ref{fig:model-train}所示。
+其中，训练过程如图\ref{fig:model-train}所示。
 
 \begin{figure}[htb]
     \centering
-    \begin{subfigure}[b]{0.3\textwidth}
+    \begin{subfigure}[b]{0.45\textwidth}
       \includegraphics[width=\textwidth]{Img/start.png}
       \caption{}
       \label{fig:start}
     \end{subfigure}%
     ~% add desired spacing
-    \begin{subfigure}[b]{0.3\textwidth}
+    \begin{subfigure}[b]{0.45\textwidth}
       \includegraphics[width=\textwidth]{Img/train.png}
       \caption{}
       \label{fig:train}
     \end{subfigure}
-    ~% line break
-    \begin{subfigure}[b]{0.3\textwidth}
-      \includegraphics[width=\textwidth]{Img/result.png}
-      \caption{}
-      \label{fig:result}
-    \end{subfigure}%
+    % ~% line break
+    % \begin{subfigure}[b]{0.3\textwidth}
+    %   \includegraphics[width=\textwidth]{Img/result.png}
+    %   \caption{}
+    %   \label{fig:result}
+    % \end{subfigure}%
     ~% add desired spacing
 
-    \bicaption{{\tool}训练过程。(a) 为开始训练，(b) 训练过程中的每一轮，(c) 训练最终结果以json格式输出。}{The training process of {\tool}. (a) Start training, (b) Every epoch during training, (c) Training result showed in json format.}
+    \bicaption{{\tool}训练过程。(a) 为开始训练，(b) 训练过程中的每一轮情况}{The training process of {\tool}. (a) Start training, (b) Details of every epoch during training}
     \label{fig:model-train}
+\end{figure}
+
+在经过json配置文件中指定的训练迭代次数后，如图\ref{fig:model-result}所示，{\tool}工具会以json格式输出并保存训练和评估结果。
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=0.8\textwidth]{Img/result.png}
+    \bicaption{{\tool}训练和验证结果}{The training and evaluation result of {\tool}}
+    \label{fig:model-result}
 \end{figure}
 
 在基于本文提供的数据集或者用户自行标注数据集上进行训练之后，用户可以加载训练好的模型，并通过\textit{allennlp predict <模型路径> <未标注对话路径> --output-file=<预测结果存放路径> --predictor=fr\_predictor --include-package=FRMiner}，来使用模型对未标注对话进行分类预测。
@@ -263,6 +273,7 @@ IDF是词出现在不同文档数的逆，词出现的次数越多，代表该�
     \bicaption{FRMiner工作流在线部署}{The online deploy of {\tool} in workflow}
     \label{fig:workflow}
 \end{figure}
+
 首先，发布团队需要构建聊天信息监测器或者爬虫来定期从公司的聊天平台收集对话文本信息。然后，使用自动化脚本\cite{kummerfeld2018large}来对原始对话文本进行预处理和对话解耦。接下来，通过前面介绍的对话表示和对话分类过程，{\tool}可以记录所有在表达需求的对话。而发布团队可以使用RSS（Really Simple Syndication）订阅定期监测收集到的隐含的需求对话结果。另外，由于开发者倾向于使用较为一致的方式在对话中表达需求，如“需要在下个版本中实现某功能”、“某功能将会一种解决方法/改进”等，因此仅当数据集的质量或聊天内容发生较大的偏移时{\tool}需要进行重新训练，否则{\tool}不需要经常进行重新训练。
 
 \section{本章小结}
